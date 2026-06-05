@@ -7,7 +7,7 @@
 
 **ConvFEA** est une application desktop développée en Python permettant d'automatiser entièrement les études de convergence de maillage sur des modèles **ANSYS Mechanical**. 
 
-*(Insérez ici une image ou un GIF de l'outil : `![Demo ConvFEA](assets/demo.gif)`)*
+![Démo de ConvFEA](assets/demo.gif)
 
 ## 🎯 Problématique résolue
 
