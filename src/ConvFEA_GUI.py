@@ -615,20 +615,14 @@ class ConvFEA(ctk.CTk):
         self._fig = Figure(figsize=(10, 6), facecolor="#1C2333")
         self._canvas = FigureCanvasTkAgg(self._fig, master=frame)
         self._canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
-
-        # --- LA SOLUTION PRO : UNE BARRE 100% CUSTOMTKINTER ---
         
-        # 1. On crée la barre Matplotlib pour qu'elle gère la logique, 
-        # mais ON LA CACHE dans un conteneur invisible.
         import tkinter as tk
         hidden_frame = tk.Frame(frame) 
         self._nav_toolbar = NavigationToolbar2Tk(self._canvas, hidden_frame)
         
-        # 2. On crée notre propre barre d'outils moderne
         toolbar_frame = styled_frame(frame, fg_color="#1C2333", corner_radius=0)
         toolbar_frame.grid(row=1, column=0, sticky="ew")
         
-        # 3. On associe des icônes textuelles (Unicode) aux commandes de Matplotlib
         tools = [
             ("🏠", self._nav_toolbar.home),
             ("◀", self._nav_toolbar.back),
@@ -651,7 +645,6 @@ class ConvFEA(ctk.CTk):
             )
             btn.pack(side="left", padx=2, pady=4)
 
-        # 4. On recrée l'affichage dynamique des coordonnées (x, y) de la souris
         self._coord_label = ctk.CTkLabel(toolbar_frame, text="", text_color="#8B949E", 
                                          font=ctk.CTkFont("Segoe UI", 12))
         self._coord_label.pack(side="right", padx=14)
@@ -663,7 +656,6 @@ class ConvFEA(ctk.CTk):
                 self._coord_label.configure(text="")
                 
         self._canvas.mpl_connect("motion_notify_event", on_mouse_move)
-        # ------------------------------------------------------
 
         # Placeholder
         self._show_placeholder()
@@ -1011,7 +1003,7 @@ class ConvFEA(ctk.CTk):
                     style = "-" if j == 0 else "--"
                     y = df[col].values
 
-                    # 2. Lissage des courbes (Interpolation monotone façon Excel/Plotly)
+                    # Lissage des courbes (Interpolation monotone façon Excel/Plotly)
                     if len(x) >= 4:
                         try:
                             # PchipInterpolator évite les "overshoots" (rebonds mathématiques) 
@@ -1028,7 +1020,7 @@ class ConvFEA(ctk.CTk):
                     else:
                         ax.plot(x, y, linewidth=1.8, linestyle=style, color=color, alpha=0.8)
 
-                    # 3. Marqueurs servant de points d'accroche pour l'interactivité
+                    # Marqueurs servant de points d'accroche pour l'interactivité
                     scat, = ax.plot(x, y, marker="o", markersize=5, linewidth=0,
                                     color=color, label=col.split("(")[0].strip())
                     scatter_points.append(scat)
@@ -1045,7 +1037,7 @@ class ConvFEA(ctk.CTk):
             if len(ycols) > 1:
                 ax.legend(fontsize=5.5, facecolor=CARD_BG, edgecolor=BORDER, labelcolor=TEXT_SEC)
 
-        # 4. Affichage dynamique des valeurs (Hover interactif)
+        # Affichage dynamique des valeurs (Hover interactif)
         try:
             cursor = mplcursors.cursor(scatter_points, hover=True)
             @cursor.connect("add")
